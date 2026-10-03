@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Morse Translator — CLASSIFIED</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- Scanline overlay -->
+  <div class="scanlines" aria-hidden="true"></div>
+  <!-- Vignette overlay -->
+  <div class="vignette" aria-hidden="true"></div>
+
+  <header>
+    <div class="brand">
+      <div class="fuse-icon" aria-hidden="true">
+        <span class="fuse-spark"></span>
+        <span class="fuse-line"></span>
+      </div>
+      <div class="brand-text">
+        <h1>MORSE COMM<span class="blink">_</span></h1>
+        <span class="subtitle">ENCRYPTED CHANNEL • IMF NETWORK</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="classified-badge">CLASSIFIED</span>
+      <button id="swap" class="icon-btn" title="Swap direction" aria-label="Swap direction">⇄</button>
+    </div>
+  </header>
+
+  <div class="status-bar">
+    <span class="pulse-dot"></span>
+    <span class="status-text">SIGNAL ACTIVE</span>
+    <span class="coords" id="timestamp"></span>
+  </div>
+
+  <section class="terminal">
+    <div class="terminal-header">
+      <span class="terminal-dots">
+        <i></i><i></i><i></i>
+      </span>
+      <span class="terminal-title">SECURE TRANSMISSION TERMINAL</span>
+    </div>
+
+    <div class="field-group">
+      <div class="label-row">
+        <label for="input" id="input-label"><span class="label-icon">▸</span> INPUT STREAM</label>
+        <button id="grab" class="link-btn" title="Intercept text from the current page">⎆ INTERCEPT</button>
+      </div>
+      <textarea id="input" rows="4" placeholder="ENTER PLAINTEXT OR MORSE SIGNAL…" spellcheck="false" autofocus></textarea>
+    </div>
+
+    <div class="divider">
+      <span class="divider-line"></span>
+      <span class="divider-label">◈ DECRYPTION ENGINE ◈</span>
+      <span class="divider-line"></span>
+    </div>
+
+    <div class="field-group">
+      <div class="label-row">
+        <label for="output" id="output-label"><span class="label-icon">▸</span> TRANSLATION</label>
+        <span id="status" class="status" aria-live="polite"></span>
+      </div>
+      <textarea id="output" rows="4" readonly placeholder="AWAITING TRANSMISSION…"></textarea>
+    </div>
+
+    <div class="keys" id="keys">
+      <button data-k="." title="Dot" class="key-dot">•</button>
+      <button data-k="-" title="Dash" class="key-dash">—</button>
+      <button data-k=" " title="Letter space">SPC</button>
+      <button data-k=" / " title="Word space">WRD</button>
+      <button data-k="back" title="Backspace">⌫</button>
+    </div>
+
+    <div class="actions">
+      <button id="play" class="primary">▶ TRANSMIT</button>
+      <button id="copy">◫ EXTRACT</button>
+      <button id="clear">✕ PURGE</button>
+    </div>
+  </section>
+
+  <section class="settings">
+    <div class="slider">
+      <label for="wpm">⚡ SPEED <output id="wpm-val">15</output> WPM</label>
+      <input type="range" id="wpm" min="5" max="35" value="15">
+    </div>
+    <div class="slider">
+      <label for="freq">◉ FREQ <output id="freq-val">600</output> Hz</label>
+      <input type="range" id="freq" min="300" max="1000" step="10" value="600">
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-warning">
+      <span class="warning-icon">⚠</span>
+      THIS MESSAGE WILL SELF-DESTRUCT. Select text → right-click → <b>Morse Translator</b>, or <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd>.
+    </div>
+    <div class="footer-imf">IMF SECURE COMM PROTOCOL v3.7.1</div>
+  </footer>
+
+  <!-- ── HINDI TRANSLATOR SIDE PANEL ── -->
+  <button id="hindi-toggle" class="hindi-toggle" title="English ↔ Hindi Translator" aria-label="Toggle Hindi Translator">
+    <span class="hindi-toggle-icon">हि</span>
+    <span class="hindi-toggle-label">LANG</span>
+  </button>
+
+  <aside id="hindi-panel" class="hindi-panel" aria-label="Hindi Translator" hidden>
+    <div class="hindi-panel-header">
+      <span class="hindi-panel-dots"><i></i><i></i><i></i></span>
+      <span class="hindi-panel-title">LANGUAGE DECODER</span>
+      <button id="hindi-close" class="hindi-close" aria-label="Close panel">✕</button>
+    </div>
+    <div class="hindi-panel-badge">ENGLISH ⇌ HINDI</div>
+
+    <div class="hindi-body">
+      <div class="hindi-field">
+        <label for="hindi-input" id="hindi-input-label"><span class="label-icon">▸</span> ENGLISH INPUT</label>
+        <textarea id="hindi-input" rows="3" placeholder="TYPE ENGLISH TEXT…" spellcheck="false"></textarea>
+      </div>
+
+      <div class="hindi-swap-row">
+        <span class="hindi-divider-line"></span>
+        <button id="hindi-swap" class="hindi-swap-btn" title="Swap languages">⇄</button>
+        <span class="hindi-divider-line"></span>
+      </div>
+
+      <div class="hindi-field">
+        <label for="hindi-output" id="hindi-output-label"><span class="label-icon">▸</span> HINDI OUTPUT</label>
+        <textarea id="hindi-output" rows="3" readonly placeholder="अनुवाद यहां दिखेगा…"></textarea>
+      </div>
+
+      <div class="hindi-actions">
+        <button id="hindi-translate" class="hindi-btn primary">⚡ TRANSLATE</button>
+        <button id="hindi-copy" class="hindi-btn">◫ EXTRACT</button>
+        <button id="hindi-clear" class="hindi-btn">✕ PURGE</button>
+      </div>
+
+      <div class="hindi-status" id="hindi-status"></div>
+    </div>
+  </aside>
+
+  <script src="morse.js"></script>
+  <script src="player.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
